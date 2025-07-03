@@ -185,4 +185,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Acknowledgements
 
-This prompt was co-designed through an iterative and collaborative process. Special thanks to the human user for their sharp-eyed debugging, insightful feedback, and brilliant suggestions that drove the evolution from a simple idea to this robust and powerful tool.
+This prompt was co-designed through an iterative and collaborative process. Special thanks to the human user for their sharp-eyed debugging, insightful feedback, and brilliant suggestions that drove the evolution from a simple idea to this robust and powerful tool.   (yeah, I let Gemini write the readme...)
