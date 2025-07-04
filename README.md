@@ -29,7 +29,7 @@ The goal is to provide developers with a zero-setup, instant way to visualize th
 <img width="1757" alt="2025-07-02_16-44-30" src="https://github.com/user-attachments/assets/01ab3159-df53-4948-bbc9-82a0f1cfb991" />
 
 
-## The Version 1.0 Prompt
+## The Version 1.1 Prompt
 Copy _everything_ from the codebox below and paste into your agent.  This really needs a git repo to be effective, but if you want code maps I'm guessing you are already managing your code propery.
 
 ```
