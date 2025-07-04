@@ -34,78 +34,65 @@ Copy _everything_ from the codebox below and paste into your agent.  This really
 
 ```
 
-Your task is to act as an AI code analysis and refactoring advisor. You will perform a deep analysis of the repository to create a **correctly rendered, visually organized knowledge graph** and a detailed analysis report.
+Your task is to act as an AI code analysis and refactoring advisor. You will perform a deep analysis of the repository to create two key artifacts:
 
-**Core Principle:** Your absolute highest priority is to generate a final `knowledge_graph.html` where the Mermaid diagram renders successfully. You must achieve this by following the syntax and template rules below with extreme precision. **Under no circumstances should you write or execute helper scripts.**
+A correctly rendered, visually organized knowledge graph (knowledge_graph.html).
+The raw Mermaid source text for the graph (knowledge_graph.mmd), allowing for easy use in external diagramming tools.
+You will also generate a detailed analysis report embedded within the HTML file.
 
----
+Core Principle: Your absolute highest priority is to generate a final knowledge_graph.html where the Mermaid diagram renders successfully. You must achieve this by following the syntax and template rules below with extreme precision. Under no circumstances should you write or execute helper scripts.
 
-### **Critical Rules for Generating a Successful Report**
+Critical Rules for Generating a Successful Report
+1. Mermaid Syntax Rules:
 
-**1. Mermaid Syntax Rules:**
-*   **Safe IDs:** All node and subgraph IDs must be a single string containing only letters, numbers, and underscores (`_`). Replace all other characters (`/`, `.`, `-`) with an underscore.
-*   **Quote All Labels:** All human-readable text for nodes and subgraphs **must** be enclosed in double quotes.
-*   **Separate Definitions from Relationships:** Define ALL subgraphs and nodes first. List ALL relationship links (`-->`) at the end of the Mermaid block.
-*   **Use CSS Classes for Styling:** Add a CSS class to your node definitions for styling. Example: `my_function("my_function()"):::functionNode`.
+Safe IDs: All node and subgraph IDs must be a single string containing only letters, numbers, and underscores (_). Replace all other characters (/, ., -) with an underscore.
+Quote All Labels: All human-readable text for nodes and subgraphs must be enclosed in double quotes.
+Separate Definitions from Relationships: Define ALL subgraphs and nodes first. List ALL relationship links (-->) at the end of the Mermaid block.
+Use CSS Classes for Styling: Add a CSS class to your node definitions for styling. Example: my_function("my_function()"):::functionNode.
+2. HTML Template Rule:
 
-**2. HTML Template Rule:**
-*   You **must** use the exact HTML template provided at the end of this prompt. It contains the modern, correct JavaScript imports and configurations required for Mermaid v10+ to render properly. **Do not modify the template's script or style sections.**
+You must use the exact HTML template provided at the end of this prompt. It contains the modern, correct JavaScript imports and configurations required for Mermaid v10+ to render properly. Do not modify the template's script or style sections.
+Phase 1: File Discovery
+Goal: To get a clean, filtered list of relevant, user-written source files, ignoring third-party and minified code.
 
----
+Execution Steps:
 
-### **Phase 1: File Discovery**
+Get Full List: Run git ls-files --cached --others --exclude-standard.
+Apply Filters: Create a new list, removing files from lib/, vendor/, etc., and any files containing .min. in their name.
+Phase 2: Code Inventory Creation
+Goal: To perform a full analysis on the filtered files and create a detailed JSON inventory.
 
-**Goal:** To get a clean, filtered list of relevant, user-written source files, ignoring third-party and minified code.
+Execution Steps:
 
-**Execution Steps:**
-1.  **Get Full List:** Run `git ls-files --cached --others --exclude-standard`.
-2.  **Apply Filters:** Create a new list, removing files from `lib/`, `vendor/`, etc., and any files containing `.min.` in their name.
+Create Directory: Ensure ./codeanalysis/ exists.
+Analyze Filtered Files: For each file in your filtered list, identify its type and all primary named structural constructs.
+Create JSON: Structure a JSON object with metadata (including a timestamp) and a files section.
+Save Inventory: Save the object to a timestamped file: ./codeanalysis/YYYY-MM-DD_HH-MM-SS_code_inventory.json.
+Phase 3: Structured Graph and Report Generation
+Goal: To create the strings for the Mermaid graph and the sidebar report by following the strict syntax rules.
 
----
+Execution Steps:
 
-### **Phase 2: Code Inventory Creation**
+Load Inventory: Load the most recent inventory JSON file.
+Perform Analysis:
+Find all relationships (IMPORTS, CALLS, REFERENCES).
+Identify orphan entities and stale files (git log).
+Build the Mermaid Graph String (Following the Rules):
+Start your Mermaid string with graph TD;.
+Create Logical Groupings: Define high-level subgraphs for logical areas like "Source & Logic", "Build & Dependencies", and "Documentation & Config".
+Define All Nodes First: Iterate through your inventory and write the syntax for every subgraph and every node, following all Mermaid Syntax Rules.
+Define All Relationships Last: After all nodes are defined, write all the relationship lines using descriptive labels. Example: main_py_worker_thread --"calls"--> main_py_process_chunk. Hold this complete string in memory.
+Generate Sidebar Report String: Create the HTML for the sidebar containing your analysis of orphans, stale files, and other refactoring suggestions. Hold this complete string in memory.
+Phase 4: Final Output Generation
+Goal: To save the raw Mermaid source file and create the final HTML report.
 
-**Goal:** To perform a full analysis on the filtered files and create a detailed JSON inventory.
+Execution Steps:
 
-**Execution Steps:**
-1.  **Create Directory:** Ensure `./codeanalysis/` exists.
-2.  **Analyze Filtered Files:** For each file in your filtered list, identify its type and all primary **named structural constructs**.
-3.  **Create JSON:** Structure a JSON object with `metadata` (including a `timestamp`) and a `files` section.
-4.  **Save Inventory:** Save the object to a timestamped file: `./codeanalysis/YYYY-MM-DD_HH-MM-SS_code_inventory.json`.
-
----
-
-### **Phase 3: Structured Graph and Report Generation**
-
-**Goal:** To create a visually organized graph and a detailed report by following the strict syntax rules.
-
-**Execution Steps:**
-1.  **Load Inventory:** Load the most recent inventory JSON file.
-2.  **Perform Analysis:**
-    *   Find all relationships (`IMPORTS`, `CALLS`, `REFERENCES`).
-    *   Identify orphan entities and stale files (`git log`).
-3.  **Build the Mermaid Graph (Following the Rules):**
-    *   Start your Mermaid list with `graph TD;`.
-    *   **Create Logical Groupings:** Define high-level subgraphs for logical areas like "Source & Logic", "Build & Dependencies", and "Documentation & Config".
-    *   **Define All Nodes First:** Iterate through your inventory and write the syntax for every subgraph and every node, following all Mermaid Syntax Rules.
-    *   **Define All Relationships Last:** After all nodes are defined, write all the relationship lines using descriptive labels. Example: `main_py_worker_thread --"calls"--> main_py_process_chunk`
-4.  **Generate Sidebar Report:** Create the HTML for the sidebar containing your analysis of orphans, stale files, and other refactoring suggestions.
-
----
-
-### **Phase 4: Final HTML Report Generation**
-
-**Goal:** To create the final report using the **correct and modern** HTML template provided below.
-
-**Execution Steps:**
-1.  **Consolidate and Embed:** Place your final Mermaid syntax and sidebar report strings into the robust HTML template below.
-2.  **Save File:** Save the complete string as `knowledge_graph.html`.
-
----
-
-### **Final HTML Output Template (Modern and Correct)**
-
-```html
+Save Raw Mermaid Source: Take the complete Mermaid syntax string you generated in Phase 3 and save it directly to a new file named knowledge_graph.mmd. This gives the user a raw source file for external tools.
+Consolidate and Embed for HTML: Place your final Mermaid syntax string and sidebar report HTML string into the robust HTML template provided below.
+Save HTML File: Save the complete, consolidated string as knowledge_graph.html.
+Final HTML Output Template (Modern and Correct)
+Generated html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,6 +120,7 @@ Your task is to act as an AI code analysis and refactoring advisor. You will per
     <div id="report-container">
         <div id="graph-container">
             <h2>Knowledge Graph</h2>
+            <!-- The raw source for this graph is also saved in knowledge_graph.mmd -->
             <pre class="mermaid">
 %% --- PASTE YOUR GENERATED MERMAID SYNTAX HERE --- %%
             </pre>
