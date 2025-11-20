@@ -1,0 +1,48 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "removeComments": false,
+    "removeEmptyLines": true,
+    "showLineNumbers": true,
+    "copyToClipboard": false
+  },
+  "include": [
+    "**/*.py",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.jsx",
+    "**/*.tsx",
+    "**/*.html",
+    "**/*.css",
+    "**/*.json",
+    "**/*.md"
+  ],
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "**/*.lock",
+      "**/*.min.js",
+      "**/*.min.css",
+      "**/dist/**",
+      "**/build/**",
+      "**/node_modules/**",
+      "**/__pycache__/**",
+      "**/*.pyc",
+      "**/.git/**",
+      "**/.venv/**",
+      "**/venv/**",
+      "**/env/**",
+      "**/.idea/**",
+      "**/.vscode/**",
+      "**/coverage/**",
+      "**/htmlcov/**",
+      "**/*.egg-info/**",
+      "**/test_results/**",
+      "**/screenshots/**",
+      "**/knowledge_base/**",
+      "**/repomix-output.*"
+    ]
+  }
+}
