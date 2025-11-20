@@ -12,6 +12,7 @@ Optimized knowledge graph generation tools powered by Gemini 3.0 Pro.
 
 1.  Install Repomix: `npm install -g repomix`
 2.  Run the script: `./generate_graph.sh`
+3.  Paste the prompt into your LLM of choice
 
 ## Does it scale?
 
