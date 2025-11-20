@@ -12,11 +12,12 @@ Optimized knowledge graph generation tools powered by Gemini 3.0 Pro.
 
 1.  Install Repomix: `npm install -g repomix`
 2.  Run the script: `./generate_graph.sh`
+3.  (Optional) If the class diagram fails to render, try using the fallback prompt: `graph_generation_prompt_v2.md`. Different models may handle complex Mermaid syntax differently.
 3.  Paste the prompt into your LLM of choice
 
 ## Does it scale?
 
-To test out the scalability, I cloned the Opennote book repo at 
+To test out the scalability, I cloned the Opennote book repo at
 https://github.com/lfnovo/open-notebook
 
 - 297 files
